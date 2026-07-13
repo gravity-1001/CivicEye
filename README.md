@@ -1,7 +1,7 @@
 # CivicEye
 Road Health Monitoring, Hazard Prediction &amp; Smart Route Recommendation System
 
-# 👁️ CivicEye
+# CivicEye
 ### AI-Powered Smart Road Monitoring & Navigation System
 
 CivicEye is an intelligent road safety platform that detects potholes using Computer Vision and Machine Learning, maps hazardous roads in real time, and recommends safer alternative routes to commuters.
@@ -10,7 +10,7 @@ Built to support Smart City initiatives, CivicEye helps citizens avoid damaged r
 
 ---
 
-## 🚀 Features
+##  Features
 
 - 🛣️ **Real-Time Pothole Detection**
   - Detects potholes from uploaded images or live camera feed using YOLO.
