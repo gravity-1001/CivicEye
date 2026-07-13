@@ -159,11 +159,7 @@ CivicEye/
 
 ##  Screenshots
 
-| Dashboard | Detection | Map |
-|------------|-----------|-----|
-| *(Add Screenshot)* | *(Add Screenshot)* | *(Add Screenshot)* |
 
----
 
 ##  Installation
 
