@@ -38,7 +38,7 @@ Built to support Smart City initiatives, CivicEye helps citizens avoid damaged r
 
 ---
 
-## 🎯 Problem Statement
+##  Problem Statement
 
 Road damage causes:
 
@@ -54,7 +54,7 @@ CivicEye automates the entire process using Artificial Intelligence.
 
 ---
 
-## 💡 Solution
+##  Solution
 
 CivicEye combines:
 
@@ -68,7 +68,7 @@ to create an intelligent platform that detects road defects, alerts users, and a
 
 ---
 
-## 🏗️ System Workflow
+##  System Workflow
 
 ```
 Road Image / Camera Feed
@@ -97,7 +97,7 @@ Road Image / Camera Feed
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Frontend
 - React.js
@@ -126,7 +126,7 @@ Road Image / Camera Feed
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 CivicEye/
@@ -157,7 +157,7 @@ CivicEye/
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 | Dashboard | Detection | Map |
 |------------|-----------|-----|
@@ -165,7 +165,7 @@ CivicEye/
 
 ---
 
-## ⚙️ Installation
+##  Installation
 
 ### Clone Repository
 
@@ -212,7 +212,7 @@ npm run dev
 
 ---
 
-## 📊 Future Improvements
+##  Future Improvements
 
 - 📹 Live CCTV integration
 - 🚦 Traffic-aware route optimization
@@ -225,7 +225,7 @@ npm run dev
 
 ---
 
-## 🌍 Sustainable Development Goals (SDGs)
+##  Sustainable Development Goals (SDGs)
 
 CivicEye contributes to:
 
@@ -236,7 +236,7 @@ CivicEye contributes to:
 
 ---
 
-## 📈 Expected Impact
+##  Expected Impact
 
 - Faster pothole reporting
 - Reduced road accidents
@@ -247,7 +247,7 @@ CivicEye contributes to:
 
 ---
 
-## 👨‍💻 Contributors
+##  Contributors
 
 - Garvit Uppal
 - Anwarul Hassan
@@ -256,7 +256,7 @@ CivicEye contributes to:
 
 ---
 
-## 📄 License
+##  License
 
 This project is developed for educational, research, and Smart City innovation purposes.
 
