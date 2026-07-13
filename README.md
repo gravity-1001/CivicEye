@@ -225,10 +225,10 @@ npm run dev
 
 CivicEye contributes to:
 
-- 🎯 SDG 9 – Industry, Innovation & Infrastructure
-- 🏙️ SDG 11 – Sustainable Cities & Communities
-- ⚖️ SDG 16 – Peace, Justice & Strong Institutions
-- 🤝 SDG 17 – Partnerships for the Goals
+-  SDG 9 – Industry, Innovation & Infrastructure
+-  SDG 11 – Sustainable Cities & Communities
+-  SDG 16 – Peace, Justice & Strong Institutions
+-  SDG 17 – Partnerships for the Goals
 
 ---
 
