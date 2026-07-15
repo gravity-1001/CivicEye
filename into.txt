@@ -1,0 +1,5 @@
+Hi ! 
+This is our Major Project 
+just adding this file to keep track of the progress ..
+14-07-26 : created the project structure 
+15-07-26 : nothing major , created the backend , need to connect it to mongoDB
