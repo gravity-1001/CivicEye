@@ -12,28 +12,28 @@ Built to support Smart City initiatives, CivicEye helps citizens avoid damaged r
 
 ##  Features
 
-- 🛣️ **Real-Time Pothole Detection**
+- **Real-Time Pothole Detection**
   - Detects potholes from uploaded images or live camera feed using YOLO.
 
-- 📍 **GPS-Based Location Mapping**
+- **GPS-Based Location Mapping**
   - Automatically records the location of detected potholes.
 
-- 🗺️ **Interactive Hazard Map**
+- **Interactive Hazard Map**
   - Displays reported potholes on an interactive map.
 
-- 🚗 **Smart Route Recommendation**
+- **Smart Route Recommendation**
   - Suggests safer alternative routes when the selected route contains multiple potholes.
 
-- 📊 **Severity Classification**
+- **Severity Classification**
   - Categorizes potholes based on size and estimated severity.
 
-- 👥 **Crowdsourced Reporting**
+- **Crowdsourced Reporting**
   - Allows users to upload images and report road issues.
 
-- 🏛️ **Municipal Dashboard**
+- **Municipal Dashboard**
   - Enables authorities to monitor, verify, and prioritize road repairs.
 
-- 📈 **Analytics Dashboard**
+- **Analytics Dashboard**
   - Visualizes road conditions, hotspot locations, and repair statistics.
 
 ---
@@ -210,14 +210,14 @@ npm run dev
 
 ##  Future Improvements
 
-- 📹 Live CCTV integration
-- 🚦 Traffic-aware route optimization
-- 🌧️ Rainfall prediction-based road damage alerts
-- 📱 Android & iOS mobile application
-- 🤖 Automatic municipal ticket generation
-- 🚑 Emergency vehicle priority routing
-- 🛰️ Drone-based road inspection
-- 📡 IoT sensor integration
+- Live CCTV integration
+- Traffic-aware route optimization
+- Rainfall prediction-based road damage alerts
+- Android & iOS mobile application
+- Automatic municipal ticket generation
+- Emergency vehicle priority routing
+- Drone-based road inspection
+- IoT sensor integration
 
 ---
 
