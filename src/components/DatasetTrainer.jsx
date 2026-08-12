@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { 
   BrainCircuit, Database, Cpu, Play, Pause, Download, Layers, 
-  Sparkles, CheckCircle, Sliders, LineChart, ShieldCheck, FileCode, Tag
+  Sparkles, CheckCircle, Sliders, LineChart, ShieldCheck, FileCode, Tag, SlidersHorizontal, Activity
 } from "lucide-react";
 import { INDIAN_DATASETS, PRETRAINED_MODELS } from "../utils/mockData";
+import { soundFx } from "../utils/soundEffects";
 
 export default function DatasetTrainer() {
   const [selectedDataset, setSelectedDataset] = useState(INDIAN_DATASETS[0]);
@@ -13,6 +14,7 @@ export default function DatasetTrainer() {
   const [learningRate, setLearningRate] = useState("0.001");
   const [enableMonsoonAug, setEnableMonsoonAug] = useState(true);
   const [enableNightAug, setEnableNightAug] = useState(true);
+  const [confThreshold, setConfThreshold] = useState(75);
 
   // Training Simulation State
   const [isTraining, setIsTraining] = useState(false);
@@ -35,23 +37,23 @@ export default function DatasetTrainer() {
       title: "Bengaluru ORR - Pothole & Unmarked Hump",
       location: "Outer Ring Road, Bellandur, Bengaluru",
       boxes: [
-        { label: "Pothole (D40)", conf: "94%", x: 28, y: 55, w: 24, h: 22, color: "#f43f5e" },
-        { label: "Unmarked Hump", conf: "89%", x: 58, y: 62, w: 32, h: 18, color: "#f59e0b" }
+        { label: "Pothole (D40)", conf: 94, x: 28, y: 55, w: 24, h: 22, color: "#ff3366" },
+        { label: "Unmarked Hump", conf: 89, x: 58, y: 62, w: 32, h: 18, color: "#f59e0b" }
       ]
     },
     {
       title: "Mumbai WEH Monsoon Rain Defect",
       location: "Western Express Highway, Bandra, Mumbai",
       boxes: [
-        { label: "Waterlogged Pit", conf: "91%", x: 35, y: 52, w: 38, h: 28, color: "#06b6d4" },
-        { label: "Asphalt Erosion", conf: "86%", x: 12, y: 68, w: 20, h: 15, color: "#f59e0b" }
+        { label: "Waterlogged Pit", conf: 91, x: 35, y: 52, w: 38, h: 28, color: "#06b6d4" },
+        { label: "Asphalt Erosion", conf: 86, x: 12, y: 68, w: 20, h: 15, color: "#f59e0b" }
       ]
     },
     {
       title: "Delhi NH-48 Gurgaon Expressway",
       location: "Cyber City Flyover, Gurgaon NCR",
       boxes: [
-        { label: "Open Manhole", conf: "96%", x: 44, y: 60, w: 18, h: 20, color: "#f43f5e" }
+        { label: "Open Manhole", conf: 96, x: 44, y: 60, w: 18, h: 20, color: "#ff3366" }
       ]
     }
   ];
@@ -65,6 +67,7 @@ export default function DatasetTrainer() {
     setCurrentMap(35.0);
     setCurrentLoss(0.82);
     setLossHistory([0.82]);
+    soundFx.playAlert(false);
     
     addTrainLog(`🚀 Started training ${selectedArchitecture.toUpperCase()} on dataset ${selectedDataset.name}`);
     addTrainLog(`Hyperparameters: Epochs=${epochs}, BatchSize=${batchSize}, LR=${learningRate}, MonsoonAug=${enableMonsoonAug ? "ON" : "OFF"}`);
@@ -72,7 +75,7 @@ export default function DatasetTrainer() {
 
   const addTrainLog = (text) => {
     const time = new Date().toLocaleTimeString();
-    setTrainLogs((prev) => [{ time, text }, ...prev.slice(0, 30)]);
+    setTrainLogs((prev) => [{ time, text }, ...prev.slice(0, 35)]);
   };
 
   useEffect(() => {
@@ -97,12 +100,13 @@ export default function DatasetTrainer() {
           if (nextEpoch >= epochs) {
             setIsTraining(false);
             setIsTrained(true);
+            soundFx.playSuccess();
             addTrainLog(`✅ Training Completed Successfully! Best mAP@50: ${newMap}%. Weights saved.`);
           }
 
           return nextEpoch;
         });
-      }, 500);
+      }, 450);
     }
     return () => clearInterval(interval);
   }, [isTraining, epochs, selectedArchitecture, selectedDataset]);
@@ -114,8 +118,8 @@ export default function DatasetTrainer() {
       <div 
         className="glass-card" 
         style={{ 
-          background: "linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%)",
-          border: "1px solid rgba(99, 102, 241, 0.3)",
+          background: "linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(6, 182, 212, 0.12) 100%)",
+          border: "1px solid rgba(99, 102, 241, 0.35)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -185,51 +189,60 @@ export default function DatasetTrainer() {
 
           {/* Annotated Sample Display Canvas */}
           <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 9", borderRadius: "var(--border-radius-sm)", overflow: "hidden", border: "1px solid var(--border-color)", background: "#050814" }}>
-            {/* Background Sample Image */}
+            {/* Background Sample Image with Augmentation Filter */}
             <img 
               src={selectedDataset.sampleImg} 
               alt="Indian Road Frame"
-              style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.85 }} 
+              style={{ 
+                width: "100%", 
+                height: "100%", 
+                objectFit: "cover", 
+                opacity: enableNightAug ? 0.65 : 0.85,
+                filter: enableMonsoonAug ? "contrast(1.15) saturate(0.9) brightness(0.85)" : "none"
+              }} 
             />
 
             {/* Bounding Box Annotations Overlays */}
-            {sampleFrames[activeSampleIndex].boxes.map((box, idx) => (
-              <div
-                key={idx}
-                style={{
-                  position: "absolute",
-                  left: `${box.x}%`,
-                  top: `${box.y}%`,
-                  width: `${box.w}%`,
-                  height: `${box.h}%`,
-                  border: `2px solid ${box.color}`,
-                  boxShadow: `0 0 10px ${box.color}80`,
-                  borderRadius: "3px",
-                  pointerEvents: "none"
-                }}
-              >
-                <span 
-                  style={{ 
-                    position: "absolute", 
-                    top: "-22px", 
-                    left: "-2px", 
-                    background: box.color, 
-                    color: "#fff", 
-                    fontSize: "10px", 
-                    fontWeight: "bold", 
-                    padding: "2px 6px", 
-                    borderRadius: "2px",
-                    fontFamily: "var(--font-mono)",
-                    whiteSpace: "nowrap"
+            {sampleFrames[activeSampleIndex].boxes.map((box, idx) => {
+              if (box.conf < confThreshold) return null;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    position: "absolute",
+                    left: `${box.x}%`,
+                    top: `${box.y}%`,
+                    width: `${box.w}%`,
+                    height: `${box.h}%`,
+                    border: `2px solid ${box.color}`,
+                    boxShadow: `0 0 12px ${box.color}80`,
+                    borderRadius: "3px",
+                    pointerEvents: "none"
                   }}
                 >
-                  {box.label} ({box.conf})
-                </span>
-              </div>
-            ))}
+                  <span 
+                    style={{ 
+                      position: "absolute", 
+                      top: "-22px", 
+                      left: "-2px", 
+                      background: box.color, 
+                      color: "#fff", 
+                      fontSize: "10px", 
+                      fontWeight: "bold", 
+                      padding: "2px 6px", 
+                      borderRadius: "2px",
+                      fontFamily: "var(--font-mono)",
+                      whiteSpace: "nowrap"
+                    }}
+                  >
+                    {box.label} ({box.conf}%)
+                  </span>
+                </div>
+              );
+            })}
 
             {/* Sample Selector Pill Overlay */}
-            <div style={{ position: "absolute", bottom: "10px", left: "10px", right: "10px", display: "flex", gap: "0.5rem", justifyContent: "center", background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", padding: "6px 12px", borderRadius: "99px" }}>
+            <div style={{ position: "absolute", bottom: "10px", left: "10px", right: "10px", display: "flex", gap: "0.5rem", justifyContent: "center", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", padding: "6px 12px", borderRadius: "99px" }}>
               {sampleFrames.map((frame, i) => (
                 <button
                   key={i}
@@ -248,9 +261,18 @@ export default function DatasetTrainer() {
             </div>
           </div>
 
-          <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", display: "flex", justifyContent: "space-between" }}>
-            <span>📍 {sampleFrames[activeSampleIndex].location}</span>
-            <span>Classes: {selectedDataset.classes.join(", ")}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <span style={{ fontSize: "0.78rem", color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
+              Confidence Filter: {confThreshold}%
+            </span>
+            <input 
+              type="range" 
+              min="50" 
+              max="95" 
+              value={confThreshold} 
+              onChange={(e) => setConfThreshold(parseInt(e.target.value))}
+              style={{ flexGrow: 1, accentColor: "var(--accent-secondary)" }}
+            />
           </div>
         </div>
 
@@ -402,17 +424,15 @@ export default function DatasetTrainer() {
               <svg viewBox="0 0 300 120" style={{ width: "100%", height: "100%", overflow: "visible" }}>
                 <defs>
                   <linearGradient id="loss-grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="var(--accent-secondary)" stopOpacity="0.4"/>
+                    <stop offset="0%" stopColor="var(--accent-secondary)" stopOpacity="0.45"/>
                     <stop offset="100%" stopColor="var(--accent-secondary)" stopOpacity="0.0"/>
                   </linearGradient>
                 </defs>
                 
-                {/* Horizontal Grid */}
                 <line x1="0" y1="30" x2="300" y2="30" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
                 <line x1="0" y1="70" x2="300" y2="70" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
                 <line x1="0" y1="110" x2="300" y2="110" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
 
-                {/* Plot Loss Curve */}
                 {lossHistory.length > 1 && (
                   <polyline
                     fill="none"

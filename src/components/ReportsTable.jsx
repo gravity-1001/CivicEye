@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Search, Filter, Trash2, CheckCircle, PlusCircle, AlertCircle, Download, ClipboardList } from "lucide-react";
+import { Search, Filter, Trash2, CheckCircle, PlusCircle, AlertCircle, Download, ClipboardList, Eye, FileJson } from "lucide-react";
+import { soundFx } from "../utils/soundEffects";
 
-export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, onDeleteIssue }) {
+export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, onDeleteIssue, onSelectIssue }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [severityFilter, setSeverityFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -56,6 +57,7 @@ export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, 
   });
 
   const exportCSV = () => {
+    soundFx.playClick();
     const headers = ["ID", "Category", "Severity", "Status", "Address", "Ward", "Est Cost"];
     const rows = filteredIssues.map((i) => [
       i.id, i.category, i.severity, i.status, `"${i.address}"`, `"${i.ward || 'BBMP'}"`, i.estRepairCost || "₹15,000"
@@ -68,6 +70,18 @@ export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const exportJSON = () => {
+    soundFx.playClick();
+    const jsonStr = JSON.stringify(filteredIssues, null, 2);
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "civiceye_india_defect_report.json";
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -92,11 +106,17 @@ export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, 
               <button className="btn-secondary" onClick={exportCSV} style={{ fontSize: '0.82rem', padding: '0.5rem 0.9rem' }}>
                 <Download size={14} /> Export CSV
               </button>
+              <button className="btn-secondary" onClick={exportJSON} style={{ fontSize: '0.82rem', padding: '0.5rem 0.9rem' }}>
+                <FileJson size={14} /> Export JSON
+              </button>
 
               {!showForm && (
                 <button 
                   className="btn-primary" 
-                  onClick={() => setShowForm(true)}
+                  onClick={() => {
+                    setShowForm(true);
+                    soundFx.playClick();
+                  }}
                   style={{ fontSize: '0.82rem', padding: '0.5rem 0.9rem' }}
                 >
                   <PlusCircle size={14} /> Flag Defect
@@ -168,7 +188,7 @@ export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, 
                   const isResolved = issue.status === "Resolved";
                   
                   return (
-                    <tr key={issue.id}>
+                    <tr key={issue.id} style={{ cursor: "pointer" }} onClick={() => onSelectIssue && onSelectIssue(issue)}>
                       <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '0.82rem', color: 'var(--accent-secondary)' }}>
                         {issue.id}
                       </td>
@@ -194,8 +214,16 @@ export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, 
                       <td style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-success)' }}>
                         {issue.estRepairCost || "₹15,000"}
                       </td>
-                      <td style={{ textAlign: 'right' }}>
+                      <td style={{ textAlign: 'right' }} onClick={(e) => e.stopPropagation()}>
                         <div style={{ display: 'inline-flex', gap: '0.35rem' }}>
+                          <button 
+                            className="nav-btn" 
+                            onClick={() => onSelectIssue && onSelectIssue(issue)}
+                            title="Inspect Telemetry Details"
+                            style={{ padding: '0.35rem', borderRadius: '4px', background: 'rgba(6,182,212,0.15)', color: 'var(--accent-secondary)' }}
+                          >
+                            <Eye size={14} />
+                          </button>
                           {!isResolved && (
                             <button 
                               className="nav-btn" 
@@ -210,7 +238,7 @@ export default function ReportsTable({ issues, onIssueDetected, onResolveIssue, 
                             className="nav-btn" 
                             onClick={() => onDeleteIssue(issue.id)}
                             title="Delete Report"
-                            style={{ padding: '0.35rem', borderRadius: '4px', background: 'rgba(244,63,94,0.15)', color: 'var(--color-danger)' }}
+                            style={{ padding: '0.35rem', borderRadius: '4px', background: 'rgba(255,51,102,0.15)', color: 'var(--color-danger)' }}
                           >
                             <Trash2 size={14} />
                           </button>
