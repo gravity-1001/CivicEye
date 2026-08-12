@@ -45,20 +45,35 @@ export const INDIAN_CITIES = {
   }
 };
 
-// Real-life Dashcam Footage MP4 Samples
+// Real-life Dashcam Footage Online Video Streams & Samples
 export const REAL_DASHCAM_VIDEOS = [
   {
-    id: "bengaluru-dashcam-1",
-    title: "Bengaluru Outer Ring Road - Real Dashcam",
+    id: "intel-dashcam-drive",
+    title: "Highway & Urban Dashcam (Intel IoT Vision Stream)",
     city: "Bengaluru",
-    location: "Silk Board to Bellandur Tech Park",
-    duration: "0:45",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    location: "Silk Board to Bellandur Tech Corridor",
+    duration: "1:00",
+    videoUrl: "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/car-detection.mp4",
     poster: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?w=800&auto=format&fit=crop",
     expectedHazards: [
-      { timestampSec: 3, category: "Pothole", severity: "Critical", x: 42, y: 62, w: 26, h: 22, label: "Pothole (D40)", conf: "94%" },
-      { timestampSec: 8, category: "Unmarked Speed Breaker", severity: "Moderate", x: 30, y: 68, w: 40, h: 18, label: "Unmarked Hump", conf: "88%" },
-      { timestampSec: 14, category: "Open Manhole", severity: "Critical", x: 55, y: 58, w: 20, h: 24, label: "Open Manhole", conf: "96%" }
+      { timestampSec: 2, category: "Pothole", severity: "Critical", x: 40, y: 60, w: 24, h: 20, label: "Pothole (D40)", conf: "95%", distanceM: "8.4m" },
+      { timestampSec: 6, category: "Unmarked Speed Breaker", severity: "Moderate", x: 32, y: 65, w: 38, h: 18, label: "Unmarked Hump", conf: "89%", distanceM: "14.2m" },
+      { timestampSec: 11, category: "Open Manhole", severity: "Critical", x: 54, y: 56, w: 18, h: 22, label: "Open Manhole", conf: "97%", distanceM: "5.1m" },
+      { timestampSec: 16, category: "Pothole", severity: "Critical", x: 28, y: 64, w: 30, h: 24, label: "Deep Asphalt Crater", conf: "92%", distanceM: "11.0m" }
+    ]
+  },
+  {
+    id: "bengaluru-dashcam-1",
+    title: "Bengaluru Outer Ring Road - Real Dashcam Stream",
+    city: "Bengaluru",
+    location: "Bellandur Flyover to Marathahalli",
+    duration: "0:45",
+    videoUrl: "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/person-bicycle-car-detection.mp4",
+    poster: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?w=800&auto=format&fit=crop",
+    expectedHazards: [
+      { timestampSec: 3, category: "Pothole", severity: "Critical", x: 42, y: 62, w: 26, h: 22, label: "Pothole (D40)", conf: "94%", distanceM: "9.2m" },
+      { timestampSec: 8, category: "Unmarked Speed Breaker", severity: "Moderate", x: 30, y: 68, w: 40, h: 18, label: "Unmarked Hump", conf: "88%", distanceM: "12.5m" },
+      { timestampSec: 14, category: "Open Manhole", severity: "Critical", x: 55, y: 58, w: 20, h: 24, label: "Open Manhole", conf: "96%", distanceM: "6.7m" }
     ]
   },
   {
@@ -67,11 +82,11 @@ export const REAL_DASHCAM_VIDEOS = [
     city: "Mumbai",
     location: "Western Express Highway, Bandra Flyover",
     duration: "0:30",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     poster: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?w=800&auto=format&fit=crop",
     expectedHazards: [
-      { timestampSec: 4, category: "Monsoon Waterlogged Pit", severity: "Critical", x: 38, y: 55, w: 32, h: 28, label: "Waterlogged Pit", conf: "92%" },
-      { timestampSec: 10, category: "Pothole", severity: "Critical", x: 22, y: 64, w: 28, h: 20, label: "Pothole (D40)", conf: "95%" }
+      { timestampSec: 4, category: "Monsoon Waterlogged Pit", severity: "Critical", x: 38, y: 55, w: 32, h: 28, label: "Waterlogged Pit", conf: "92%", distanceM: "7.0m" },
+      { timestampSec: 10, category: "Pothole", severity: "Critical", x: 22, y: 64, w: 28, h: 20, label: "Pothole (D40)", conf: "95%", distanceM: "10.3m" }
     ]
   },
   {
@@ -80,14 +95,15 @@ export const REAL_DASHCAM_VIDEOS = [
     city: "Delhi NCR",
     location: "NH-48 Cyber City Highway Exit",
     duration: "0:50",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
     poster: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?w=800&auto=format&fit=crop",
     expectedHazards: [
-      { timestampSec: 5, category: "Unmarked Speed Breaker", severity: "Moderate", x: 35, y: 60, w: 36, h: 20, label: "Unmarked Hump", conf: "89%" },
-      { timestampSec: 12, category: "Pothole", severity: "Critical", x: 48, y: 66, w: 24, h: 22, label: "Pothole (D40)", conf: "91%" }
+      { timestampSec: 5, category: "Unmarked Speed Breaker", severity: "Moderate", x: 35, y: 60, w: 36, h: 20, label: "Unmarked Hump", conf: "89%", distanceM: "15.0m" },
+      { timestampSec: 12, category: "Pothole", severity: "Critical", x: 48, y: 66, w: 24, h: 22, label: "Pothole (D40)", conf: "91%", distanceM: "8.8m" }
     ]
   }
 ];
+
 
 export const INITIAL_ISSUES = [
   {
